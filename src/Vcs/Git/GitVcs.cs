@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace Skarp.Version.Cli.Vcs.Git
 {
@@ -54,7 +55,7 @@ namespace Skarp.Version.Cli.Vcs.Git
             }
         }
 
-        private static bool LaunchGitWithArgs(string args, int waitForExitTimeMs = 1000, int exitCode = 0)
+        internal static bool LaunchGitWithArgs(string args, int waitForExitTimeMs = 1000, int exitCode = 0)
         {
             try
             {
@@ -62,6 +63,9 @@ namespace Skarp.Version.Cli.Vcs.Git
                 var proc = Process.Start(startInfo);
                 proc.WaitForExit(waitForExitTimeMs);
 
+                var stdOut = proc.StandardOutput.ReadToEnd();
+                var stdErr = proc.StandardError.ReadToEnd();
+                
                 return proc.ExitCode == exitCode;
             }
             catch (Exception ex)
@@ -70,7 +74,7 @@ namespace Skarp.Version.Cli.Vcs.Git
                 return false;
             }
         }
-        private static ProcessStartInfo CreateGitShellStartInfo(string args)
+        internal static ProcessStartInfo CreateGitShellStartInfo(string args)
         {
             return new ProcessStartInfo("git")
             {
