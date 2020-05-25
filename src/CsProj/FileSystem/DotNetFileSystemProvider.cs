@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Skarp.Version.Cli.CsProj.FileSystem
 {
@@ -42,6 +43,16 @@ namespace Skarp.Version.Cli.CsProj.FileSystem
         public string LoadContent(string filePath)
         {
             return File.ReadAllText(filePath);
+        }
+
+        /// <summary>
+        /// Write all text content to the given filepath
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="data"></param>
+        public void WriteAllContent(string filePath, string data)
+        {
+            File.WriteAllText(filePath, data);
         }
     }
 }
